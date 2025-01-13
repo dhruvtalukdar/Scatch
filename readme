@@ -2,3 +2,23 @@ npm init -y
 npm i express mongoose
 npm i jsonwebtoken cookie-parser bcrypt
 npm i multer : to upload file
+gkeep - to add and commit empty folders in git
+
+usermodel
+full name - string
+email - string
+password - string 
+cart - array
+isadmin - boolean
+orders - array
+contact - number
+picture - db
+
+product 
+image
+name
+price
+discount
+bgcolor 
+panelcolor 
+textcolor
