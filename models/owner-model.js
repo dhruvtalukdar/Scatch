@@ -8,17 +8,12 @@ const userSchema = mongoose.Schema({
     },
     email: String,
     password: String, 
-    cart: {
+    products: {
         type: Array,
         default: []
     },
-    isadmin: Boolean,
-    orders: {
-        type: Array,
-        default: []
-    },
-    contact: Number,
-    picture: String
+    picture: String,
+    gstin: String,
 });
 
 module.exports = mongoose.model("user", userSchema);
