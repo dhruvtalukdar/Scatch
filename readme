@@ -22,3 +22,24 @@ discount
 bgcolor 
 panelcolor 
 textcolor
+
+// setting environment variable
+set DEBUG=development:*
+$env:NODE_ENV="development" 
+
+
+// routes
+/ -> signup or login
+/shop -> shop
+/users/cart -> cart
+/owner/product -> show all products
+/owner/admin -> admin panel to create products
+
+
+
+// frontend
+npx create-react-app public/frontend
+cd public/frontend
+
+npm install -D tailwindcss
+npx tailwindcss init
