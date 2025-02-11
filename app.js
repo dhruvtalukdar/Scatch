@@ -7,7 +7,7 @@ const productsRouter = require("./routes/productsRouter");
 const usersRouter = require("./routes/usersRouter");
 const indexRouter = require("./routes/index");
 
-const db = require("./config/mongoose-connection");
+const connectDB = require("./config/mongoose-connection");
 const ownerModel = require("./models/owner-model");
 
 app.use(express.json());
@@ -15,6 +15,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
+
+// connect to the database
+connectDB();
 
 // app.get("/", (req, res) => {
 //     res.send("hey");
