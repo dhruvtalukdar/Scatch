@@ -5,6 +5,7 @@ const path = require("path");
 const ownersRouter = require("./routes/ownersRouter");
 const productsRouter = require("./routes/productsRouter");
 const usersRouter = require("./routes/usersRouter");
+const indexRouter = require("./routes/index");
 
 const db = require("./config/mongoose-connection");
 const ownerModel = require("./models/owner-model");
@@ -15,11 +16,12 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) => {
-    res.send("hey");
-});
+// app.get("/", (req, res) => {
+//     res.send("hey");
+// });
 
 // Routes
+app.use("/", indexRouter);
 app.use("/owners", ownersRouter);
 app.use("/users", usersRouter);
 app.use("/products", productsRouter);
