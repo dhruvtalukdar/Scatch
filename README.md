@@ -22,9 +22,9 @@ To track empty folders in Git:
 gkeep
 ```
 
-## 📂 Database Models  
+## Database Models  
 
-### 👤 User Model  
+### User Model  
 ```js
 const UserSchema = new mongoose.Schema({
   fullName: { type: String, required: true },
@@ -38,7 +38,7 @@ const UserSchema = new mongoose.Schema({
 });
 ```
 
-### 🛍️ Product Model  
+### Product Model  
 ```js
 const ProductSchema = new mongoose.Schema({
   image: { type: String, required: true },
@@ -51,14 +51,14 @@ const ProductSchema = new mongoose.Schema({
 });
 ```
 
-## ⚙️ Environment Variables  
+## Environment Variables  
 Set environment variables using:  
 ```sh
 set DEBUG=development:*
 $env:NODE_ENV="development"; nodemon app.js 
 ```
 
-## 🌍 Routes  
+## Routes  
 
 | Endpoint          | Description                           |
 |------------------|----------------------------------|
@@ -71,6 +71,11 @@ $env:NODE_ENV="development"; nodemon app.js
 
 
 
+
+ ## Authentication
+ ``` sh
+ npm install jsonwebtoken bcrypt dotenv cookie-parser
+ ```
 
 
 

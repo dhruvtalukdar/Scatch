@@ -25,16 +25,16 @@ router.post("/create", async function(req, res) {
     }
 
     // create a new owner
-    // let {fullname, email, password} = req.body;
+    let {fullname, email, password} = req.body;
 
-    // let createdOwner = await ownerModel.create({
-    //     fullname,
-    //     email,
-    //     password,
-    // });
+    let createdOwner = await ownerModel.create({
+        fullname,
+        email,
+        password,
+    });
 
-    // res.status(201).send(createdOwner);
-    res.send("hey it's working");
+    res.status(201).send(createdOwner);
+    // res.send("hey it's working");
 })};
 
 
