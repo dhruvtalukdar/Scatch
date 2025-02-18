@@ -7,6 +7,7 @@ console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === 'development') {
 router.post("/create", async function(req, res) {
     // check if there is already an owner in the database
+    
 
     // debugging
     try {

@@ -15,6 +15,10 @@ npm install express mongoose
 npm install jsonwebtoken cookie-parser bcrypt
 npm install multer  # For file uploads
 ```
+**other packages** :
+express-session
+connect-flash
+
 
 #### 3️⃣ Git Handling  
 To track empty folders in Git:  
