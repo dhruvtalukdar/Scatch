@@ -99,4 +99,19 @@ npx tailwindcss init
 
 ---
 
-### ✅ Project is ready to build! 🚀
+### Connecting frontend with the backend
+Added API calls to your backend for registration and login
+Created a PrivateRoute component to protect the Home page
+Added token-based authentication using localStorage
+Implemented proper error handling and user feedback
+Added proper sign out functionality
+
+
+Make sure your Express backend:
+
+> Has CORS enabled to accept requests from http://localhost:5173 (default Vite dev server)
+Returns a JWT token upon successful login/registration
+Has the following endpoints:
+POST /api/users/register
+POST /api/users/login
+The frontend will now automatically redirect to the home page after successful registration/login, and users cannot access the home page without authentication.

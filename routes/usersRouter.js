@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const userModel = require('../models/user-model');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { generateToken } = require('../utils/generateToken');
 const { registerUser, signInUser } = require('../controllers/authController');
+const validateRequest = require('../middlewares/validateRequest');
+const { registerUserValidator } = require('../validators/authValidator');
 // const JWT_SECRET = "your_secret_key";
 
 router.get("/", function (req, res) {
@@ -12,9 +10,10 @@ router.get("/", function (req, res) {
 });  
 
 // register a user
-router.post("/register", registerUser);
+router.post("/register", registerUserValidator, validateRequest, registerUser);
 
-router.post("/sign-in", signInUser);
+// login a user
+router.post("/login", signInUser);
 
 
 // router.get("/test-password", function (req, res) {

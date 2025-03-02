@@ -1,37 +1,54 @@
-const userModel = require('../models/user-model');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { generateToken } = require('../utils/generateToken');
+const authService = require("../service/authService");
 
 
 module.exports.registerUser = async function (req, res) {
     try {
-        let { email, password, fullname} = req.body;
+        const { email, password, fullname} = req.body;
+        const { user, token } = await authService.registerUser(email, password, fullname);
 
-        // check if user already exists
-        const user = await userModel.findOne({ email });
+        res.cookie("token", token);
+        res.status(201).send(user);
+        console.log("User registered successfully");
+    }
+    catch (err) {
+        console.error("Error registering user: ", err.message);
+        res.status(500).json({ message: "Internal server error" });
+    }
+}
 
-        if (user) {
-            return res.status(400).send("User already exists");
+module.exports.signInUser = async function (req, res) {
+    try {
+        const { email, password } = req.body;
+        const { user, token } = await authService.signInUser(email, password);
+
+        res.cookie("token", token);
+        res.send("user logged in successfully");
         }
+    catch (err) {
+        res.status(400).json(err);
+        console.log(err.message);
+    }
+};
 
-        // password hashing
-        bcrypt.genSalt(10, function (err, salt) {
-            bcrypt.hash(password, salt, async function (err, hash) {
-                if (err) return res.send(err.message);
-                else {
-                    let createdUser = await userModel.create({
-                        email,
-                        password : hash,
-                        fullname
-                    });
-                    let token = generateToken(createdUser);
-                    res.cookie("token", token);
-                    res.status(201).send(createdUser);
-                    console.log("User registered successfully");
-                };
-            });
-        });
+
+// MIGHT BE IMPORTANT
+// // password hashing
+        // bcrypt.genSalt(10, function (err, salt) {
+        //     bcrypt.hash(password, salt, async function (err, hash) {
+        //         if (err) return res.send(err.message);
+        //         else {
+        //             let createdUser = await userModel.create({
+        //                 email,
+        //                 password : hash,
+        //                 fullname
+        //             });
+        //             let token = generateToken(createdUser);
+        //             res.cookie("token", token);
+        //             res.status(201).send(createdUser);
+        //             console.log("User registered successfully");
+        //         };
+        //     });
+        // });
 
         // // Generating token
         // let token = jwt.sign(
@@ -44,36 +61,22 @@ module.exports.registerUser = async function (req, res) {
 
         // res.status(201).json({ user: createdUser, token });
         // console.log("User registered successfully");
-    }
-    catch (err) {
-        res.status(400).json(err);
-        console.log(err.message);
-    }
-}
 
-module.exports.signInUser = async function (req, res) {
-    try {
-        let { email, password } = req.body;
 
-        // check if user exists
-        let user = await userModel.findOne({ email });
+        // let { email, password } = req.body;
 
-        if(!user) return res.status(400).send("Invalid email or password");
+        // // check if user exists
+        // let user = await userModel.findOne({ email });
 
-        bcrypt.compare(password, user.password, function (err, result) {
-            if (!result) return res.status(400).send("Invalid email or password");
-            else {
-                let token = generateToken(user);
-                res.cookie("token", token);
-                res.send("user logged in successfully");
-                res.send(token);
-            }
-            if (err) return res.send(err.message);
+        // if(!user) return res.status(400).send("Invalid email or password");
 
-        });
-    }
-    catch (err) {
-        res.status(400).json(err);
-        console.log(err.message);
-    }
-};
+        // bcrypt.compare(password, user.password, function (err, result) {
+        //     if (!result) return res.status(400).send("Invalid email or password");
+        //     else {
+        //         let token = generateToken(user);
+        //         res.cookie("token", token);
+        //         res.send("user logged in successfully");
+        //     }
+        //     if (err) return res.send(err.message);
+
+        // });
