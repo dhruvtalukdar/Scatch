@@ -3,6 +3,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const expressSession = require("express-session");
+const flash = require("connect-flash");
 require("dotenv").config(); 
 
 const connectDB = require("./config/mongoose-connection");
@@ -41,12 +42,16 @@ app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 
 // Define Routes
-app.use("/", indexRouter);
+app.use("/index", indexRouter);
 app.use("/owners", ownersRouter);
-app.use("/api/users", usersRouter);
+app.use("/users", usersRouter);
 app.use("/products", productsRouter);
 
 // Test Route (Optional)
+app.get("/", (req, res) => {
+    res.send(body="Welcome to the Subscription Tracker API!");
+});
+
 app.get("/api/data", (req, res) => {
     res.json({ message: "CORS is working for localhost:8080" });
 });

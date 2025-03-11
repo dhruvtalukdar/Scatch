@@ -1,18 +1,33 @@
+const userModel = require("../models/user-model");
 const authService = require("../service/authService");
+// const { registerUserValidator } = require("express-validator");
 
 
 module.exports.registerUser = async function (req, res) {
+    // const errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //     return res.status(400).json({ errors: errors.array() });
+    // }
+
     try {
-        const { email, password, fullname} = req.body;
+        const { email, fullname, password } = req.body;
         const { user, token } = await authService.registerUser(email, password, fullname);
 
         res.cookie("token", token);
-        res.status(201).send(user);
+        res.status(201).json({ user, token });
+        // res.status(201).send(user);
         console.log("User registered successfully");
+        // console.log("Checking if it is working?");
+        // res.send(`email: ${email}, fullname: ${fullname}`);
     }
     catch (err) {
         console.error("Error registering user: ", err.message);
-        res.status(500).json({ message: "Internal server error" });
+        if (!res.headersSent) {
+            if (err.message === "User already exists") {
+                return res.status(400).json({ message: err.message });
+            }
+            res.status(500).json({ message: "Internal server error" });
+        }
     }
 }
 
@@ -22,7 +37,7 @@ module.exports.signInUser = async function (req, res) {
         const { user, token } = await authService.signInUser(email, password);
 
         res.cookie("token", token);
-        res.send("user logged in successfully");
+        res.send(token);
         }
     catch (err) {
         res.status(400).json(err);
@@ -30,6 +45,15 @@ module.exports.signInUser = async function (req, res) {
     }
 };
 
+module.exports.getAllUsers = async function (req, res) {
+    try {
+        const users = await authService.getAllUsers();
+        res.send(users);
+    }
+    catch (err) {
+        res.status(500).json(err);
+    }
+}
 
 // MIGHT BE IMPORTANT
 // // password hashing

@@ -40,7 +40,8 @@ async function signInUser(email, password) {
         }
 
         // compare password
-        const isMatch = bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, user.password);
+        console.log(isMatch);
         if (!isMatch) {
             throw new Error("Invalid email or password");
         }
@@ -54,4 +55,14 @@ async function signInUser(email, password) {
     }
 }
 
-module.exports = { registerUser, signInUser };
+async function getAllUsers() {
+    try {
+        const users = await userModel.find();
+        return users;
+    }
+    catch (error) {
+        throw error;
+    }
+}
+
+module.exports = { registerUser, signInUser, getAllUsers };
