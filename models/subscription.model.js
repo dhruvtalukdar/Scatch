@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 
 const subscriptionSchema = new mongoose.Schema({
     name: {
@@ -21,6 +21,11 @@ const subscriptionSchema = new mongoose.Schema({
     frequency: {
         type: String,
         enum: ['daily', 'weekly', 'monthly', 'yearly'],
+    },
+    category: {
+        type: String,
+        enum: ['entertainment', 'health', 'lifestyle', 'tech', 'utilities'],
+        required: true, 
     },
     paymentMethod: {
         type: String,

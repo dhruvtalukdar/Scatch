@@ -1,14 +1,7 @@
 const userModel = require("../models/user-model");
 const authService = require("../service/authService");
-// const { registerUserValidator } = require("express-validator");
-
 
 module.exports.registerUser = async function (req, res) {
-    // const errors = validationResult(req);
-    // if (!errors.isEmpty()) {
-    //     return res.status(400).json({ errors: errors.array() });
-    // }
-
     try {
         const { email, fullname, password } = req.body;
         const { user, token } = await authService.registerUser(email, password, fullname);
@@ -36,8 +29,21 @@ module.exports.signInUser = async function (req, res) {
         const { email, password } = req.body;
         const { user, token } = await authService.signInUser(email, password);
 
-        res.cookie("token", token);
-        res.send(token);
+        // res.cookie("token", token);
+
+                // Set secure cookie
+                res.cookie("token", token, {
+                    httpOnly: true, // Prevents JavaScript access (security)
+                    // secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+                    sameSite: "Lax", // Ensures cookies are sent with navigation
+                    path: "/",        // Ensures cookie is available across all routes
+                    maxAge: 24 * 60 * 60 * 1000, // Cookie expiry: 24 hours
+                });
+
+        console.log("Cookie headers has been set");
+        // Send a JSON response instead of redirecting
+        res.json({ success: true, message: "Login successful!", redirectUrl: "/users/about", token: `${token}` });
+        // res.send(token);
         }
     catch (err) {
         res.status(400).json(err);
